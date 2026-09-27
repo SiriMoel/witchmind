@@ -1,4 +1,6 @@
 ,,,,,,,,,,,,,,,,,,,,,,,
+action_wm_knowledge,"Witchmind",,,,,,,,,,,,,,,,,,,,,,
+actiondesc_wm_knowledge,"Cast for random Witchmind spells... (this spell will be consumed)",,,,,,,,,,,,,,,,,,,,,,
 action_wm_remember,"Remember Spells",,,,,,,,,,,,,,,,,,,,,,
 actiondesc_wm_remember,"Your mind will clear and then remember the subsequent spells, up until a utility or multicast spell is encountered",,,,,,,,,,,,,,,,,,,,,,
 action_wm_recall,"Cast your mind",,,,,,,,,,,,,,,,,,,,,,

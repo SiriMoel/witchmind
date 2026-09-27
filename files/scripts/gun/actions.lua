@@ -2,6 +2,40 @@ dofile_once("mods/witchmind/files/scripts/utils.lua")
 
 local new_actions = {
 	{
+		id = "KNOWLEDGE",
+		name = "$action_wm_knowledge",
+		description = "$actiondesc_wm_knowledge",
+		sprite = "mods/witchmind/files/ui_gfx/gun_actions/knowledge.png",
+		type = ACTION_TYPE_UTILITY,
+		spawn_level = "6,10",
+		spawn_probability = "0.2,0.7",
+		price = 220,
+		mana = 0,
+		max_uses = 1,
+		never_unlimited = true,
+		custom_xml_file = "mods/witchmind/files/entities/misc/card_knowledge.xml",
+		action = function()
+			local caster = GetUpdatedEntityID()
+			if reflecting or not EntityHasTag(caster, "player_unit") then return end
+			dofile_once("mods/witchmind/files/scripts/knowledge_loot.lua")
+			local x, y = EntityGetTransform(caster)
+			KnowledgeLoot(x, y)
+			local comp_inv = EntityGetFirstComponentIncludingDisabled(caster, "Inventory2Component")
+			if comp_inv then
+				local wand = ComponentGetValue2(comp_inv, "mActiveItem")
+				local c = EntityGetAllChildren(wand) or {}
+				if #c > 0 then
+					for _,v in ipairs(c) do
+						if EntityHasTag(v, "witchmind_knowledge") then
+							EntityKill(v)
+							break
+						end
+					end
+				end
+			end
+		end,
+	},
+	{
 		id = "REMEMBER",
 		name = "$action_wm_remember",
 		description = "$actiondesc_wm_remember",

@@ -1,4 +1,8 @@
 Witchmind
 
+3 spells
+
+some mini guide thing here
+
 Discord: https://discord.gg/FKaRA9HMUq
 Github: https://github.com/SiriMoel/witchmind
