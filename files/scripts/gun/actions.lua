@@ -73,7 +73,6 @@ local new_actions = {
 		name = "$action_wm_recall",
 		description = "$actiondesc_wm_recall",
 		sprite = "mods/witchmind/files/ui_gfx/gun_actions/recall.png",
-		spawn_requires_flag = "ff_gurbert_spells_unlocked",
 		type = ACTION_TYPE_OTHER,
 		recursive = true,
 		spawn_level = "10",
@@ -92,7 +91,9 @@ local new_actions = {
 				while (#witchmind >= how_many) do
 					local rec = check_recursion(data, recursion_level)
 					if rec > -1 then
-						data.action(rec)
+						if type(data) == "table" then
+							data.action(rec)
+						end
 					end
 					how_many = how_many + 1
 					data = witchmind[how_many]
@@ -100,7 +101,81 @@ local new_actions = {
 			else
 				GamePrint("Your mind is empty...")
 			end
-
+		end,
+	},
+	{
+		id = "REMEMBER_ONE",
+		name = "$action_wm_rem_one",
+		description = "$actiondesc_wm_rem_one",
+		sprite = "mods/witchmind/files/ui_gfx/gun_actions/remember_one.png",
+		type = ACTION_TYPE_OTHER,
+		spawn_level = "10",
+		spawn_probability = "0",
+		price = 200,
+		mana = 10,
+		action = function()
+			local data = {}			
+			if #deck > 0 then
+				data = deck[1]
+			else
+				data = nil
+			end
+			if data ~= nil then
+				table.insert(witchmind, data)
+				table.insert(discarded, data)
+				table.remove(deck, 1)
+			end
+		end,
+	},
+	{
+		id = "FORGET",
+		name = "$action_wm_forget",
+		description = "$actiondesc_wm_forget",
+		sprite = "mods/witchmind/files/ui_gfx/gun_actions/forget.png",
+		type = ACTION_TYPE_OTHER,
+		spawn_level = "10",
+		spawn_probability = "0",
+		price = 200,
+		mana = -30,
+		action = function()
+			witchmind = {}
+		end,
+	},
+	{
+		id = "DAYDREAM",
+		name = "$action_wm_daydream",
+		description = "$actiondesc_wm_daydream",
+		sprite = "mods/witchmind/files/ui_gfx/gun_actions/daydream.png",
+		type = ACTION_TYPE_OTHER,
+		spawn_level = "10",
+		spawn_probability = "0",
+		price = 110,
+		mana = -20,
+		action = function()
+			c.fire_rate_wait = c.fire_rate_wait - 12
+			current_reload_time = current_reload_time - 12
+			for i = 1, 2 do
+				table.insert(witchmind, "THOUGHT")
+			end
+		end,
+	},
+	{
+		id = "SHIFT_FOCUS",
+		name = "$action_wm_shift_focus",
+		description = "$actiondesc_wm_shift_focus",
+		sprite = "mods/witchmind/files/ui_gfx/gun_actions/shift_focus.png",
+		type = ACTION_TYPE_OTHER,
+		spawn_level = "10",
+		spawn_probability = "0",
+		price = 140,
+		mana = 7,
+		action = function()
+			if #witchmind > 1 then
+				local last = witchmind[#witchmind]
+				for i = 1, #witchmind - 1 do 
+					witchmind[i] = last -- PLEASE WORK I DONT WANT TO DEEP COPY PLEASE PLEASE PLEASE
+				end
+			end
 		end,
 	},
 }
